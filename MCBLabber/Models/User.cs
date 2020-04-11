@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace MCBLabber.Models
 {
@@ -6,6 +7,7 @@ namespace MCBLabber.Models
     {
         public uint Id { get; set; }
         public string Name { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
 
         public uint RoleId { get; set; }
