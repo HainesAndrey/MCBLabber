@@ -1,5 +1,4 @@
-﻿using EntityFrameworkCore.Triggers;
-using MCBLabber.Models;
+﻿using MCBLabber.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
