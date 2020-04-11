@@ -4,6 +4,7 @@
     {
         public uint UserId { get; set; }
         public User User { get; set; }
+
         public string Surname { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }

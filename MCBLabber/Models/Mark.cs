@@ -3,17 +3,16 @@
     public class Mark
     {
         public uint Id { get; set; }
+        public string PracticeState { get; set; }
+        public string TheoryState { get; set; }
+        public string Date { get; set; }
+        public bool WasntOnLab { get; set; }
 
         public uint StudentId { get; set; }
         public Student Student { get; set; }
 
         public uint Journal_LabId { get; set; }
         public Journal_Lab Journal_Lab { get; set; }
-
-        public string PracticeState { get; set; }
-        public string TheoryState { get; set; }
-        public string Date { get; set; }
-        public bool WasntOnLab { get; set; }
 
         public Mark(uint studentId, uint journal_LabId, string practiceState, string theoryState, string date, bool wasntOnLab = true)
         {
