@@ -11,17 +11,17 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "users",
+      "launchBrowser": false,
+      "launchUrl": "auth/gettoken",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "MCBLabber": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "users",
-      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "launchBrowser": false,
+      "launchUrl": "auth/gettoken",
+      "applicationUrl": "https://localhost:2772",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

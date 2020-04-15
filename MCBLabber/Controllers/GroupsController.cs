@@ -1,4 +1,5 @@
 ﻿using MCBLabber.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace MCBLabber.Controllers
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class GroupsController : ControllerBase
     {
         private readonly LabberDBContext _context;
@@ -19,7 +21,7 @@ namespace MCBLabber.Controllers
         }
 
         // GET: api/Groups
-        [HttpGet]
+        [HttpGet("/getgroups")]
         public async Task<ActionResult<IEnumerable<Group>>> GetGroups()
         {
             return await _context.Groups.ToListAsync();
@@ -43,14 +45,15 @@ namespace MCBLabber.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutGroup(uint id, Group @group)
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> PutGroup(uint id, Group group)
         {
-            if (id != @group.Id)
+            if (id != group.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(@group).State = EntityState.Modified;
+            _context.Entry(group).State = EntityState.Modified;
 
             try
             {
@@ -75,16 +78,18 @@ namespace MCBLabber.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Group>> PostGroup(Group @group)
+        [Authorize(Roles = "admin")]
+        public async Task<ActionResult<Group>> PostGroup(Group group)
         {
-            _context.Groups.Add(@group);
+            _context.Groups.Add(group);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetGroup", new { id = @group.Id }, @group);
+            return CreatedAtAction("GetGroup", new { id = group.Id }, group);
         }
 
         // DELETE: api/Groups/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<Group>> DeleteGroup(uint id)
         {
             var @group = await _context.Groups.FindAsync(id);

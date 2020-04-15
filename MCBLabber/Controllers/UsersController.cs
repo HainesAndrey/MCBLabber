@@ -1,4 +1,5 @@
 ﻿using MCBLabber.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MCBLabber.Controllers
 {
+    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -19,17 +21,19 @@ namespace MCBLabber.Controllers
         }
 
         // GET: Users
-        [HttpGet]
+        [HttpGet("/getusers")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.Include(x => x.Role).ToListAsync();
+            return await _context.Users.Include(x => x.Role).Select(x => x.UserWithoutPassword()).ToListAsync();
         }
 
         // GET: Users/5
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<User>> GetUser(uint id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(x => x.Role).Select(x => x.UserWithoutPassword()).FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
             {
@@ -43,6 +47,7 @@ namespace MCBLabber.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> PutUser(uint id, User user)
         {
             if (id != user.Id)
@@ -75,6 +80,7 @@ namespace MCBLabber.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             _context.Users.Add(user);
@@ -85,6 +91,7 @@ namespace MCBLabber.Controllers
 
         // DELETE: Users/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<User>> DeleteUser(uint id)
         {
             var user = await _context.Users.FindAsync(id);

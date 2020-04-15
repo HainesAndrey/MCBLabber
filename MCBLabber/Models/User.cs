@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 
 namespace MCBLabber.Models
 {
@@ -7,7 +6,6 @@ namespace MCBLabber.Models
     {
         public uint Id { get; set; }
         public string Name { get; set; }
-        [JsonIgnore]
         public string Password { get; set; }
 
         public uint RoleId { get; set; }
@@ -18,6 +16,14 @@ namespace MCBLabber.Models
             RoleId = roleId;
             Name = name;
             Password = password ?? new Random().Next(100000, 999999).ToString();
+        }
+
+        public User() { }
+
+        public User UserWithoutPassword()
+        {
+            Password = null;
+            return this;
         }
     }
 }
